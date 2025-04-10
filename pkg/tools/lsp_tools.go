@@ -92,14 +92,14 @@ func convertPathToURI(path string) string {
 
 func (t *LSPTools) registerGoToDefinition(s *server.MCPServer) {
 	definitionTool := mcp.NewTool("go_to_definition",
-		mcp.WithDescription("Navigate to the definition of a symbol"),
+		mcp.WithDescription("Navigate to the precise definition location of symbols in Go code, supporting cross-file and standard library lookup"),
 		mcp.WithString("file_uri",
 			mcp.Required(),
-			mcp.Description("URI of the file"),
+			mcp.Description("URI of the file containing the target symbol, supports relative or absolute paths"),
 		),
 		mcp.WithObject("position",
 			mcp.Required(),
-			mcp.Description("Position of the symbol"),
+			mcp.Description("Precise position of the target symbol in the file, including line number and character offset"),
 		),
 	)
 
@@ -149,14 +149,14 @@ func (t *LSPTools) registerGoToDefinition(s *server.MCPServer) {
 
 func (t *LSPTools) registerFindReferences(s *server.MCPServer) {
 	referencesTool := mcp.NewTool("find_references",
-		mcp.WithDescription("Find all references to a symbol"),
+		mcp.WithDescription("Find all references to a specific symbol in Go code, including cross-package and project references"),
 		mcp.WithString("file_uri",
 			mcp.Required(),
-			mcp.Description("URI of the file"),
+			mcp.Description("URI of the file containing the target symbol, supports relative or absolute paths"),
 		),
 		mcp.WithObject("position",
 			mcp.Required(),
-			mcp.Description("Position of the symbol"),
+			mcp.Description("Precise position of the target symbol in the file, including line number and character offset"),
 		),
 	)
 
@@ -209,10 +209,10 @@ func (t *LSPTools) registerFindReferences(s *server.MCPServer) {
 
 func (t *LSPTools) registerCheckDiagnostics(s *server.MCPServer) {
 	diagnosticsTool := mcp.NewTool("check_diagnostics",
-		mcp.WithDescription("Get diagnostics for a file"),
+		mcp.WithDescription("Get diagnostic information for Go source files, including syntax errors, type errors, and other potential issues"),
 		mcp.WithString("file_uri",
 			mcp.Required(),
-			mcp.Description("URI of the file"),
+			mcp.Description("URI of the Go source file to diagnose, supports relative or absolute paths"),
 		),
 	)
 
@@ -249,14 +249,14 @@ func (t *LSPTools) registerCheckDiagnostics(s *server.MCPServer) {
 
 func (t *LSPTools) registerHover(s *server.MCPServer) {
 	hoverTool := mcp.NewTool("get_hover_info",
-		mcp.WithDescription("Get hover information for a symbol"),
+		mcp.WithDescription("Get detailed information about symbols in Go code, including types, documentation comments, and signatures"),
 		mcp.WithString("file_uri",
 			mcp.Required(),
-			mcp.Description("URI of the file"),
+			mcp.Description("URI of the file containing the target symbol, supports relative or absolute paths"),
 		),
 		mcp.WithObject("position",
 			mcp.Required(),
-			mcp.Description("Position of the symbol"),
+			mcp.Description("Precise position of the target symbol in the file, including line number and character offset"),
 		),
 	)
 
@@ -303,14 +303,14 @@ func (t *LSPTools) registerHover(s *server.MCPServer) {
 
 func (t *LSPTools) registerCompletion(s *server.MCPServer) {
 	completionTool := mcp.NewTool("get_completion",
-		mcp.WithDescription("Get completion suggestions at a position"),
+		mcp.WithDescription("Get intelligent code completion suggestions at a specific position in Go code, including variables, functions, methods, and packages"),
 		mcp.WithString("file_uri",
 			mcp.Required(),
-			mcp.Description("URI of the file"),
+			mcp.Description("URI of the file where code completion is needed, supports relative or absolute paths"),
 		),
 		mcp.WithObject("position",
 			mcp.Required(),
-			mcp.Description("Position where to get completion"),
+			mcp.Description("Precise position where code completion is needed, including line number and character offset"),
 		),
 	)
 
@@ -362,12 +362,12 @@ func (t *LSPTools) registerCompletion(s *server.MCPServer) {
 
 func (t *LSPTools) registerCoverageAnalysis(s *server.MCPServer) {
 	coverageTool := mcp.NewTool("analyze_coverage",
-		mcp.WithDescription("Analyze test coverage for Go code"),
+		mcp.WithDescription("Analyze test coverage for Go code, supporting detailed coverage statistics at package and function levels"),
 		mcp.WithString("path",
-			mcp.Description("Path to the package or directory to analyze. If not provided, analyzes the entire project."),
+			mcp.Description("Path to the Go package or directory to analyze. If not provided, analyzes test coverage for the entire project"),
 		),
 		mcp.WithString("output_format",
-			mcp.Description("Format of the coverage output: 'summary' (default) or 'func' (per function)"),
+			mcp.Description("Coverage output format: 'summary' (default, provides overall coverage summary) or 'func' (provides detailed coverage by function)"),
 		),
 	)
 
