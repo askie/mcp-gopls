@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	service, err := server.NewService()
+	service, err := server.NewService(nil)
 	if err != nil {
 		fmt.Printf("Error creating service: %v", err)
 		log.Fatalf("Error creating service: %v", err)
